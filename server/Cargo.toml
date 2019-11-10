@@ -5,6 +5,9 @@ version = "0.1.0"
 authors = ["Mark <mverleg.noreply@gmail.com>"]
 edition = "2018"
 
+[[bin]]
+name = "luncar_calendar_ical"
+
 [dependencies]
 hyper = "0.13.0-alpha.4"
 chrono = { version = "0.4.*" }
@@ -13,10 +16,5 @@ env_logger = { version = "0.7.*" }
 diesel = { version = "1.4.*", features = ["r2d2", "postgres", "chrono"] }
 clap = { version = "2.33.*" }
 rand = { version = "0.7.*" }
-
-[dev-dependencies]
-diesel_cli = { version = "1.4.*", features = ["postgres"] }
-
-[build-dependencies]
-diesel_cli_ext = { version = "0.3.*" }
-schemafy = { version = "0.5.*" }
+gen_api = { path = "../api/gen_api" }
+gen_db = { path = "../db/gen_db" }
