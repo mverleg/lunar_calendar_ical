@@ -8,8 +8,12 @@ fn main() {
 
     // Get the schema and output directory.
     let schema_dir = fs::canonicalize(&PathBuf::from("../schema")).unwrap();
-    let out_dir = PathBuf::from(env::var("OUT_DIR").unwrap());
+    let out_dir = pathdiff::diff_paths(
+        &PathBuf::from(env::var("OUT_DIR").unwrap()),
+        &env::current_dir().unwrap(),
+    ).expect("cannot express output directory relative to cargo directory");
     let entity_pth = out_dir.join(PathBuf::from("schema.rs"));
+    println!("out: {}", out_dir.to_string_lossy());  //TODO @mark: TEMPORARY! REMOVE THIS!
     assert!(schema_dir.is_dir());
     assert!(out_dir.is_dir());
 
@@ -17,7 +21,7 @@ fn main() {
     println!("cargo:rerun-if-changed={}", schema_dir.to_string_lossy());
     println!("cargo:rerun-if-changed={}", entity_pth.to_string_lossy());
 
-    let mut json_filenames = vec![];
+    let mut json_pths = vec![];
     let yaml_files = vec!["choose_date.yaml"];  //TODO @mark:
     for filename in yaml_files {
 
@@ -35,8 +39,8 @@ fn main() {
             pth.set_extension("json");
             pth
         };
-        json_filenames.push(filename.clone());
         let json_pth = out_dir.join(filename);
+        json_pths.push(json_pth.to_string_lossy().into_owned());
         let json_str = serde_json::to_string(&yaml_code).unwrap();
         fs::write(json_pth, json_str).unwrap();
     }
@@ -49,10 +53,10 @@ fn main() {
         "extern crate serde_json;".to_owned(),
         "use serde::{Serialize, Deserialize};".to_owned(),
         "schemafy::schemafy!(".to_owned(),
-        "\tApi".to_owned(),
+        //"\troot::Api,".to_owned(),
     ];
-    for filename in json_filenames {
-        entity_code.push(format!("\t\"{}\"", filename.to_string_lossy()));
+    for filename in json_pths {
+        entity_code.push(format!("\t\"{}\"", filename));
     }
     entity_code.push(");".to_owned());
     fs::write(entity_pth, entity_code.join("\n")).unwrap();
