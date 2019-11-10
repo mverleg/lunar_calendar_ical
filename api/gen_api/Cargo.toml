@@ -15,6 +15,7 @@ schemafy = { version = "0.5.*" }
 schemafy_core = { version = "0.5.*" }
 serde = { version = "1.0.*", features = ["derive"] }
 serde_json = { version = "1.0.*" }
+rmp-serde = { version = "0.14.*" }
 
 [build-dependencies]
 chrono = { version = "0.4.*" }
