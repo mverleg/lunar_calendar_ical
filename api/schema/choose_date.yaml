@@ -20,7 +20,23 @@ properties:
   date_value:
     type: string
     description: The value of the date, to be interpreted according to date_calendat and date_format
+  repeat_mode:
+    type: string
+    description: What type of repetitions to generate, i.e. single, yearly...
+    enum:
+      - single
+      - yearly
+    default: single
+  name:
+    type: string
+    description: The base name of the event, i.e. the name of the person whose birthday it is
+  includeRepetitionCount:
+    type: boolean
+    description: Should the number of repetitions be included in the text?
+    default: true
+additionalProperties: false
 required:
   - date_calendar
   - date_format
   - date_value
+  - name
