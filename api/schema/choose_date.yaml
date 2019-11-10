@@ -1,42 +1,73 @@
 ---
 
-"$schema": http://json-schema.org/draft-07/schema#
+"$schema": "http://json-schema.org/draft/2019-09/schema#"
 "$id": https://markv.nl/date-request.schema.json
 title: Choose date request
 description: Request to choose an initial date, with options about what derived generate
 type: object
+definitions:
+  date:
+    type: object
+    description: A date, with flexible calendar and format
+    properties:
+      calendar:
+        type: string
+        description: The type of calendar, i.e. Gregorian or LunarChina
+        enum:
+          - Gregorian
+          - LunarChina
+      format:
+        type: string
+        description: The format of the date, i.e. yyyy-MM-dd
+        enum:
+          - yyyy-MM-dd
+      value:
+        type: string
+        description: The value of the date, to be interpreted according to date_calendat and date_format
+        minLength: 8
+        maxLength: 32
+    additionalProperties: false
+    required:
+      - calendar
+      - format
+      - value
+# https://stackoverflow.com/a/25033301/723090
+#  repeat_mode:
+#    type: object
+#    description:
+#    anyOf:
+#      - properties:
 properties:
-  date_calendar:
-    type: string
-    description: The type of calendar, i.e. Gregorian or LunarChina
-    enum:
-      - Gregorian
-      - LunarChina
-  date_format:
-    type: string
-    description: The format of the date, i.e. yyyy-MM-dd
-    enum:
-      - yyyy-MM-dd
-  date_value:
-    type: string
-    description: The value of the date, to be interpreted according to date_calendat and date_format
+  initial_date:
+    "$ref": "#/definitions/date"
   repeat_mode:
     type: string
     description: What type of repetitions to generate, i.e. single, yearly...
     enum:
+      # this has to be more complex, i.e. 'repeat first sunday of every other month'
+      # maybe I could do something like a step to create series and a step to map that to days
+      # so in above case, crease a series of every other month, then map to the first sunday?
       - single
       - yearly
     default: single
   name:
     type: string
     description: The base name of the event, i.e. the name of the person whose birthday it is
-  includeRepetitionCount:
+  include_repetition_count:
     type: boolean
     description: Should the number of repetitions be included in the text?
     default: true
 additionalProperties: false
 required:
-  - date_calendar
-  - date_format
-  - date_value
   - name
+
+# {
+# "initial_date": {
+#   "calendar": "LunarChina",
+#   "format": "yyyy-MM-dd",
+#   "value": "2019-11-14"
+# },
+# "name": "王贝贝",
+# "repeat_mode": "yearly",
+# "include_repetition_count": false
+#}
