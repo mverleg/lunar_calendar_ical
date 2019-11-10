@@ -9,7 +9,10 @@ edition = "2018"
 name = "luncar_calendar_ical"
 
 [dependencies]
-hyper = "0.13.0-alpha.4"
+#futures-preview = { version = "=0.3.0-alpha.17", features = ["compat"] }
+#futures-preview = { version = "0.3.0-alpha.19", features = ["compat"] }
+futures = { version = "0.3.*" }
+hyper = { version = "0.13.0-alpha.4" }
 chrono = { version = "0.4.*" }
 log = { version = "0.4.*" }
 env_logger = { version = "0.7.*" }
