@@ -40,15 +40,47 @@ async fn run_server(forward_url: &'static str, addr: SocketAddr) {
 }
 
 fn main() {
+//	let make_svc = make_service_fn(|_| async {
+//		Ok::<hyper::Response<hyper::Body>, hyper::Error>(service_fn(|req| async {
+//			let msg = hyper::Response::new(hyper::Body::from("Hello World"));
+//			Ok::<hyper::Response<hyper::Body>, hyper::Error>(msg)
+//		}))
+//	});
+//
+//	let addr = SocketAddr::from(([127, 0, 0, 1], 8000));
+//	let server = hyper::server::Server::bind(&addr).serve(make_svc);
+//
+//	block_on(server).unwrap();
+	//TODO @mark: reactivate the stuff above here
+
+
+	use hyper::{Body, Error, Response, Server};
+	use hyper::service::{make_service_fn, service_fn};
+
+	// Construct our SocketAddr to listen on...
+	let addr = ([127, 0, 0, 1], 3000).into();
+
+	// And a MakeService to handle each connection...
 	let make_svc = make_service_fn(|_| async {
-		Ok::<hyper::Response<_>, hyper::Error>(service_fn(|req| async {
-			let msg = hyper::Response::new(hyper::Body::from("Hello World"));
-			Ok::<_, hyper::Error>(msg)
+		Ok::<_, Error>(service_fn(|_req| async {
+			Ok::<_, Error>(Response::new(Body::from("Hello World")))
 		}))
 	});
 
-	let addr = SocketAddr::from(([127, 0, 0, 1], 8000));
-	let server = hyper::server::Server::bind(&addr).serve(make_svc);
+	// Then bind and serve...
+	let server = Server::bind(&addr)
+		.serve(make_svc);
+
+	// Run forever-ish...
+	block_on(server).unwrap();
+
+
+
+
+
+
+
+
 
 
 //	block_on(run_server(url, addr))
