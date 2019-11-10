@@ -1,3 +1,4 @@
+
 [package]
 name = "luncar_calendar_ical"
 version = "0.1.0"
@@ -18,4 +19,4 @@ diesel_cli = { version = "1.4.*", features = ["postgres"] }
 
 [build-dependencies]
 diesel_cli_ext = { version = "0.3.*" }
-
+schemafy = { version = "0.5.*" }
