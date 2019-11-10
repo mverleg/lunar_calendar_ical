@@ -53,7 +53,7 @@ fn main() {
         "extern crate serde_json;".to_owned(),
         "use serde::{Serialize, Deserialize};".to_owned(),
         "schemafy::schemafy!(".to_owned(),
-        //"\troot::Api,".to_owned(),
+        "\troot: Api".to_owned(),
     ];
     for filename in json_pths {
         entity_code.push(format!("\t\"{}\"", filename));
