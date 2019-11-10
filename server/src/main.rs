@@ -1,27 +1,71 @@
-use std::io::{stdout, Write};
+use std::net::SocketAddr;
 
 use ::futures::executor::block_on;
 use ::hyper;
+use ::hyper::service::{make_service_fn, service_fn};
+
 //use ::hyper::{Body, Client, Request, Response, Server, Uri};
 
-async fn server() -> Result<(), hyper::error::Error> {
-	let client = hyper::Client::new();
+//async fn server() -> Result<(), hyper::error::Error> {
+//    let client = hyper::Client::new();
+//
+//    let mut resp = client.get("https://markv.nl".parse().unwrap()).await?;
+//    println!("Status: {}", resp.status());
+//    println!("Headers: {:#?}\n", resp.headers());
+//
+//    while let Some(chunk) = resp.body_mut().next().await {
+//        stdout().write_all(&chunk.unwrap()).unwrap();
+//    }
+//
+//    Ok(())
+//}
 
-	let mut resp = client.get("http://httpbin.org/ip".parse().unwrap()).await.unwrap();
-	println!("Status: {}", resp.status());
-	println!("Headers: {:#?}\n", resp.headers());
+async fn run_server(forward_url: &'static str, addr: SocketAddr) {
+//	let server = hyper::server::Server::bind(&addr).serve(make_service_fn(move |_| {
+//		async move { Ok::<_, i32>(service_fn(move |req|
+//			println!("{:?}", req)
+//		)) }
+//	}));
+//	if let Err(err) = server.await {
+//		eprintln!("server error: {}", err);
+//	}
 
-	while let Some(chunk) = resp.body_mut().next().await {
-		stdout().write_all(&chunk.unwrap()).unwrap();
-	}
-
-	Ok(())
+	//let mut pool = LocalPool::new();
+	//let mut exec = pool.executor();
+	//
+	//// ... spawn some initial tasks using `exec.spawn()` or `exec.spawn_local()`
+	//
+	//// run *all* tasks in the pool to completion, including any newly-spawned ones.
+	//pool.run(&mut exec);
 }
 
 fn main() {
-	block_on(server()).unwrap();
-}
+	let make_svc = make_service_fn(|_| async {
+		Ok::<hyper::Response<_>, hyper::Error>(service_fn(|req| async {
+			let msg = hyper::Response::new(hyper::Body::from("Hello World"));
+			Ok::<_, hyper::Error>(msg)
+		}))
+	});
 
+	let addr = SocketAddr::from(([127, 0, 0, 1], 8000));
+	let server = hyper::server::Server::bind(&addr).serve(make_svc);
+
+
+//	block_on(run_server(url, addr))
+
+//    //block_on(server()).unwrap();
+//    let svc = ServiceBuilder::new()
+//        // Reject the request early if concurrency limit is hit
+//        .load_shed()
+//        // Only allow 1,000 requests in flight at a time
+//        .concurrency_limit(1_000)
+//        // Cancel requests that hang too long
+//        .timeout(Duration::from_secs(5))
+//        //
+//        .resource(server)
+//        //
+//        .run();
+}
 
 
 //use {
@@ -94,6 +138,7 @@ fn main() {
 //	run(futures_01_future);
 //}
 
-	//TODO @mark: https://rust-lang.github.io/async-book/01_getting_started/05_http_server_example.html
-	//TODO @mark: something for form validation?
-	//TODO @mark: https://seanmonstar.com/post/187493499882/hyper-alpha-supports-asyncawait
+//TODO @mark: https://rust-lang.github.io/async-book/01_getting_started/05_http_server_example.html
+//TODO @mark: https://stackoverflow.com/questions/58505000/how-to-write-a-simple-rust-asynchronous-proxy-using-futures-0-3-and-hyper-0-1
+//TODO @mark: https://seanmonstar.com/post/187493499882/hyper-alpha-supports-asyncawait -- client
+//TODO @mark: something for form validation?
