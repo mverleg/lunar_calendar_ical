@@ -1,0 +1,26 @@
+---
+
+"$schema": http://json-schema.org/draft-07/schema#
+"$id": https://markv.nl/date-request.schema.json
+title: Choose date request
+description: Request to choose an initial date, with options about what derived generate
+type: object
+properties:
+  date_calendar:
+    type: string
+    description: The type of calendar, i.e. Gregorian or LunarChina
+    enum:
+      - Gregorian
+      - LunarChina
+  date_format:
+    type: string
+    description: The format of the date, i.e. yyyy-MM-dd
+    enum:
+      - yyyy-MM-dd
+  date_value:
+    type: string
+    description: The value of the date, to be interpreted according to date_calendat and date_format
+required:
+  - date_calendar
+  - date_format
+  - date_value
