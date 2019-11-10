@@ -4,10 +4,12 @@ include!(concat!(env!("OUT_DIR"), "/schema.rs"));
 
 #[cfg(test)]
 mod tests {
+    use super::Api;
+//    use super::Deserialize;
+//    use super::_IMPL_SERIALIZE_FOR_Api;
+
     #[test]
     fn generated_code_exists() {
-        use super::Api;
-        use super::Date;
         let api: Api = serde_json::from_str(r#"{
             "initial_date": {
                 "calendar": "LunarChina",
