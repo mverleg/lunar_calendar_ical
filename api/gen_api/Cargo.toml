@@ -3,6 +3,7 @@ name = "gen_api"
 version = "0.1.0"
 authors = ["Mark <mverleg.noreply@gmail.com>"]
 edition = "2018"
+build = "build.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -10,6 +11,8 @@ edition = "2018"
 name = "gen_api"
 
 [dependencies]
-
-[build-dependencies]
 schemafy = { version = "0.5.*" }
+schemafy_core = { version = "0.5.*" }
+serde = { version = "1.0.*" }
+serde_json = { version = "1.0.*" }
+serde_yaml = { version = "0.8.*" }
