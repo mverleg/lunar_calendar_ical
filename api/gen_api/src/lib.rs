@@ -1,5 +1,7 @@
 #![feature(rustc_private)]
 
+//TODO @mark: Add RPC: https://jsonrpc.org/historical/json-schema-service-descriptor.html
+
 use ::rmp_serde;
 
 include!(concat!(env!("OUT_DIR"), "/schema.rs"));
