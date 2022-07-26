@@ -12,7 +12,7 @@ name = "gen_db"
 [dependencies]
 
 [dev-dependencies]
-diesel_cli = { version = "1.4.*", features = ["postgres"] }
+diesel_cli = { version = "1.4.1", features = ["postgres"] }
 
 [build-dependencies]
-diesel_cli_ext = { version = "0.3.*" }
+diesel_cli_ext = "0.3.6"

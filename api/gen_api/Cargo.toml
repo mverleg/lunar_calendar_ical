@@ -11,16 +11,16 @@ build = "build.rs"
 name = "gen_api"
 
 [dependencies]
-schemafy = { version = "0.5.*" }
-schemafy_core = { version = "0.5.*" }
-serde = { version = "1.0.*", features = ["derive"] }
-serde_json = { version = "1.0.*" }
-rmp-serde = { version = "0.14.*" }
+schemafy = "0.6.0"
+schemafy_core = "0.6.0"
+serde = { version = "1.0.140", features = ["derive"] }
+serde_json = "1.0.82"
+rmp-serde = "1.1.0"
 
 [build-dependencies]
-chrono = { version = "0.4.*" }
-serde = { version = "1.0.*", features = ["derive"] }
+chrono = "0.4.19"
+serde = { version = "1.0.140", features = ["derive"] }
 #serde_derive = { version = "1.0.*" }
-serde_json = { version = "1.0.*" }
-serde_yaml = { version = "0.8.*" }
-pathdiff = { version = "0.1.*" }
+serde_json = "1.0.82"
+serde_yaml = "0.8.26"
+pathdiff = "0.2.1"
